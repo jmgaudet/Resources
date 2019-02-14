@@ -12,6 +12,7 @@ void addFirst(List * start, int x);
 void addLast(List * list, int x);
 void print_list(List * list);
 void reverse(List * list);
+void destroy_list(List * list);
 
 
 #endif  // LINKEDLIST_H_

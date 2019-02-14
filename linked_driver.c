@@ -21,4 +21,6 @@ int main() {
     reverse(list1);
     print_list(list1);
 
+    destroy_list(list1);
+
 }

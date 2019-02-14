@@ -71,3 +71,14 @@ void reverse(List * list) {
     }
     list->head = r;
 }
+
+void destroy_list(List * list) {
+    Node * temp = list->head;
+    Node * current = temp;
+    while (temp != NULL) {
+        current = temp->next;
+        free(temp);
+        temp = current;
+    }
+    free(list);
+}
