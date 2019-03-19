@@ -16,9 +16,15 @@ void deleteList(struct Prime* p);
 
 int main(int argc, char const* argv[]) {
     int x, y;
-    printf("Enter two numbers to find all prime numbers between them:\n");
-    scanf("%d %d", &x, &y);
-
+    bool done = false;
+    while(!done) {
+        printf("Enter two numbers to find all prime numbers between them:\n");
+        scanf("%d %d", &x, &y);
+        if (x > 1 && y > 1)
+            done = true;
+        else
+            printf("\nYou have entered illegal values. Try again.\n");
+    }
     printf("This is what you entered: %d, and %d.\nI will now display all intermediate prime numbers, inclusive:\n", x, y);
     if (x > y)
         swap(&x, &y);
