@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct Prime
-{
+struct Prime {
     int x, y;
     int size;
     int* primelist;
@@ -13,6 +12,7 @@ void makePrimeList(struct Prime* p);
 void swap(int* a, int* b);
 bool checkPrime(int num);
 void displayPrimeList(struct Prime p);
+void deleteList(struct Prime* p);
 
 int main(int argc, char const* argv[]) {
     int x, y;
@@ -29,6 +29,8 @@ int main(int argc, char const* argv[]) {
     
     makePrimeList(&myPrimes);
     displayPrimeList(myPrimes);
+
+    deleteList(&myPrimes);
 }
 
 void swap(int* a, int* b) {
@@ -40,8 +42,6 @@ void swap(int* a, int* b) {
 void makePrimeList(struct Prime* p) {
     int t = 0;
     p->size = p->y - p->x;
-    printf("this is x: %d, and this is y: %d\n", p->x, p->y);
-
     for (int i = p->x; i <= p->y; i++) {
         if (checkPrime(i)) {
             p->primelist[t] = i;
@@ -63,4 +63,10 @@ bool checkPrime(int num) {
 void displayPrimeList(struct Prime p) {
     for (int i = 0; i <= p.size; i++)
         printf("p.primeList[%d] = %d\n", i, p.primelist[i]);
+}
+
+void deleteList(struct Prime* p) {
+    p->size = 0;
+    if (p->primelist != NULL)
+        free(p->primelist);
 }
