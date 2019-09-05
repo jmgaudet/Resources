@@ -110,28 +110,6 @@ void remove_nth(List * l, int n) {
     free(old_node);
 }
 
-
-// void list_remove_nth(List *l, int n) {
-//     assert(0 <= n && n < list_length(l));
-//     Node *old_node;
-//     if (n == 0) {
-//         old_node = l->start;
-//         l->start = old_node->next;
-//     } else {
-//         Node *old_preceding = list_nth_node(l, n - 1);
-//         old_node = old_preceding->next;
-//         old_preceding->next = old_node->next;
-//         if (n == (list_length(l) - 1)) {
-//             l->end = old_preceding;
-//         }
-//     }
-//     if (should_copy(l)) {
-//         l->elem_free(old_node->data);
-//     }
-//     l->length -= 1;
-//     Free(old_node);
-// }
-
 void destroy_list(List * l) {
     Node * temp = l->head;
     Node * current = temp;
