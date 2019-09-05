@@ -9,6 +9,7 @@
 # Explicit ignore
 .DS_Store
 .vscode
+sandbox.c
 
 # Common generated files
 *.class

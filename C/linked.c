@@ -1,7 +1,12 @@
+/**
+ * Generic Linked List Implementation
+ */
+
 #include "linkedlist.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct node {
     int val;
@@ -10,6 +15,7 @@ struct node {
 
 struct list {
     Node * head;
+    int length;
 };  // typedef = List
 
 void init_node(Node * n) {
@@ -24,17 +30,18 @@ Node * create_node(int x) {
     return newest;
 }
 
-void addFirst(List * start, int x) {
+void addFirst(List * l, int x) {
     Node * newest = create_node(x);
-    newest->next = start->head;
-    start->head = newest;
+    newest->next = l->head;
+    l->head = newest;
+    l->length++;
 }
 
-void addLast(List * list, int x) {
-    if (list->head == NULL)
-        list->head = create_node(x);
+void addLast(List * l, int x) {
+    if (l->head == NULL)
+        l->head = create_node(x);
     else {
-        Node * newest = list->head;
+        Node * newest = l->head;
         while (newest->next != NULL) {
             newest = newest->next;
         }
@@ -43,42 +50,96 @@ void addLast(List * list, int x) {
 }
 
 List * makelist() {
-    List * list = malloc(sizeof(List));
-    if (!list)
+    List * l = malloc(sizeof(List));
+    if (!l)
         return NULL;
-    list->head = NULL;
-    return list;
+    l->head = NULL;
+    l->length = 0;
+    return l;
 }
 
-void print_list(List * list) {
-    Node * current = list->head;
-    if(list->head == NULL) 
+void print_list(List * l) {
+    Node * current = l->head;
+    if(l->head == NULL) 
         return;
     for(; current != NULL; current = current->next) {
-        printf("%d\n", current->val);
+        if (current->next == NULL)
+            printf("%d\n", current->val);
+        else
+            printf("%d, ", current->val);
     }
 }
 
-void reverse(List * list) {
+void reverse(List * l) {
     Node * temp = NULL;
     Node * r = NULL;
-    Node * current = list->head;
+    Node * current = l->head;
     while (current != NULL) {
         temp = current;
         current = current->next;
         temp->next = r;
         r = temp;
     }
-    list->head = r;
+    l->head = r;
 }
 
-void destroy_list(List * list) {
-    Node * temp = list->head;
+Node *list_nth_node(List *l, int n) {
+    assert(0 <= n && n < l->length);
+    Node *iter = l->head;
+    int i = 0;
+    while (i < n) {
+        iter = iter->next;
+        i++;
+    }
+    return iter;
+}
+
+void remove_nth(List * l, int n) {
+    assert(0 <= n < l->length);
+    Node * old_node = NULL;
+    if (n == 0) {
+        old_node = l->head;
+        l->head = old_node->next;
+    }
+    else {
+        Node * old_proceeding = list_nth_node(l, n-1);
+        old_node = old_proceeding->next;
+        old_proceeding->next = old_node->next;
+    }
+    l->length -= 1;
+    free(old_node);
+}
+
+
+// void list_remove_nth(List *l, int n) {
+//     assert(0 <= n && n < list_length(l));
+//     Node *old_node;
+//     if (n == 0) {
+//         old_node = l->start;
+//         l->start = old_node->next;
+//     } else {
+//         Node *old_preceding = list_nth_node(l, n - 1);
+//         old_node = old_preceding->next;
+//         old_preceding->next = old_node->next;
+//         if (n == (list_length(l) - 1)) {
+//             l->end = old_preceding;
+//         }
+//     }
+//     if (should_copy(l)) {
+//         l->elem_free(old_node->data);
+//     }
+//     l->length -= 1;
+//     Free(old_node);
+// }
+
+void destroy_list(List * l) {
+    Node * temp = l->head;
     Node * current = temp;
     while (temp != NULL) {
         current = temp->next;
         free(temp);
         temp = current;
     }
-    free(list);
+    free(l);
+    l = NULL;
 }
